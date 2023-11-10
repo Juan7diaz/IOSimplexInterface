@@ -1,7 +1,7 @@
 import React from "react"
 import { InputWithDropdown } from "../components/InputWithDropdown"
 import { Button } from "@material-tailwind/react"
-import { parseObjectiveFunction } from "../helpers/helpers"
+import { parseObjectiveFunction, parseRestriction } from "../helpers/helpers"
 import HeaderObjectiveFunction from "../components/HeaderObjectiveFunction"
 import RestrictionInput from "../components/RestrictionInput"
 
@@ -14,7 +14,8 @@ function LandingPage() {
     const [ objectiveFunction, setObjectiveFunction ] = React.useState("")
 
     // para las restricciones
-    const [restriction, setRestriction]= React.useState("")
+    const [ restrictions] = React.useState([])
+    const [restrictionAdded, setRestriction]= React.useState("")
 
     // para hacer la peticion al servidor
     const onSubmit = () => {
@@ -22,18 +23,18 @@ function LandingPage() {
     }
 
     const onSubmitRestrictions = () => {
-        console.log("Holaaa")
+        console.log(parseRestriction(restrictionAdded))
     }
 
     return (
         <div className="mx-auto relative flex flex-col w-full max-w-[30rem] pt-10 px-4">
                 <HeaderObjectiveFunction />
                 <InputWithDropdown types={types} typeSelected={typeSelected} setTypeSelected={setTypeSelected} objectiveFunction={objectiveFunction} setObjectiveFunction={setObjectiveFunction}/>
-                <Button className="mt-5 mb-6" onClick={onSubmit}>Resolver</Button>
+                <Button className="mt-5 mb-6" onClick={onSubmit} disabled={!objectiveFunction}>Resolver</Button>
                 <HeaderObjectiveFunction/>
                 <div className="relative flex w-full">
-                <RestrictionInput restriction={restriction} setRestriction={setRestriction} />
-                <Button size="sm" color={restriction ? "gray" : "blue-gray"} disabled={!restriction} className="!absolute right-1 top-1 rounded">+</Button>
+                <RestrictionInput restrictions={restrictions} restrictionAdded={restrictionAdded} setRestriction={setRestriction} />
+                <Button size="sm" color={restrictionAdded ? "gray" : "blue-gray"} disabled={!restrictionAdded} className="!absolute right-1 top-1" onClick={onSubmitRestrictions}>+</Button>
                 </div>
                 
         </div>
