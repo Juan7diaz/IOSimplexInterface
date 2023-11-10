@@ -4,6 +4,7 @@ import { Button } from "@material-tailwind/react"
 import { parseObjectiveFunction, parseRestrictions} from "../helpers/helpers"
 import HeaderObjectiveFunction from "../components/HeaderObjectiveFunction"
 import RestrictionInput from "../components/RestrictionInput"
+import { helps_funcObj, helps_restrictions } from "../data/helps"
 
 
 function LandingPage() {
@@ -28,15 +29,28 @@ function LandingPage() {
 
     return (
         <div className="mx-auto relative flex flex-col w-full max-w-[30rem] pt-10 px-4">
-                <HeaderObjectiveFunction />
-                <InputWithDropdown types={types} typeSelected={typeSelected} setTypeSelected={setTypeSelected} objectiveFunction={objectiveFunction} setObjectiveFunction={setObjectiveFunction}/>
-                <Button className="mt-5 mb-6" onClick={onSubmit} disabled={!objectiveFunction}>Resolver</Button>
-                <HeaderObjectiveFunction/>
+                <HeaderObjectiveFunction
+                    title='Introduzca la función objetivo'
+                    data={helps_funcObj}
+                    titleHelps='Como ingresar datos correctamente'
+                />
+                <InputWithDropdown
+                    types={types}
+                    typeSelected={typeSelected}
+                    setTypeSelected={setTypeSelected}
+                    objectiveFunction={objectiveFunction}
+                    setObjectiveFunction={setObjectiveFunction}
+                />
+                <Button className="mt-5 mb-7" onClick={onSubmit}>Resolver</Button>
+                <HeaderObjectiveFunction 
+                    title='introduzca la restricción'
+                    data={helps_restrictions}
+                    titleHelps='Como enseñarte a no ser menso'
+                />
                 <div className="relative flex w-full">
                 <RestrictionInput restrictions={restrictions} restrictionAdded={restrictionAdded} setRestriction={setRestriction} />
                 <Button size="sm" color={restrictionAdded ? "gray" : "blue-gray"} disabled={!restrictionAdded} className="!absolute right-1 top-1" onClick={onSubmitRestrictions}>+</Button>
                 </div>
-                
         </div>
     )
 }

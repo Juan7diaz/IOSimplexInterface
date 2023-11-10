@@ -28,11 +28,9 @@ const restriction_parse = (separator) => {
 export function parseRestrictions(str = "") {
   const equation = str.trim()
 
-  const {leftSide, separator}=separateEquation(equation)
-  const coefficients=getCoefficients(math.parse(leftSide), getOperators(leftSide))
-  return{
-    coefficients
-  }
+  const {expression, separator}=separateEquation(equation)
+  return expression[0]
+  
 }
 
 const getFormatedType = (type) => type === 'maxZ' ? 'max' : 'min';
@@ -62,5 +60,5 @@ const obtainSeparator = (str) => {
 
 const separateEquation = (str) => {
   const separator = obtainSeparator(str)
-  return separator ? {leftSide: str.split(separator)[0], separator: separator} : null
+  return separator ? {expression: str.split(separator), separator: separator} : null
 }
