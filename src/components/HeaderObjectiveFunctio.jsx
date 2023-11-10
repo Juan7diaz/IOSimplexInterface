@@ -1,43 +1,36 @@
 import { Tooltip, Typography } from "@material-tailwind/react";
 
-const HeaderObjectiveFunctio = () => {
+// eslint-disable-next-line react/prop-types
+const HeaderObjectiveFunctio = ({title, titleHelps, data}) => {
   return (
     <div className='flex flex-row text-center mb-5'>
-      <h1 className="text-orange-950 text-xl font-medium">Inserte la función objetivo</h1>
-      <TooltipWithHelperIcon/>
+      <h1 className="text-orange-950 text-xl font-medium">{title}</h1>
+      <TooltipWithHelperIcon titleHelps={titleHelps} data={data}/>
     </div>
   )
 }
 
-export function TooltipWithHelperIcon() {
+// eslint-disable-next-line react/prop-types
+export function TooltipWithHelperIcon({titleHelps, data=[]}) {
   return (
     <Tooltip
       content={
         <div className="max-w-[50rem]">
           <Typography color="white" className="font-medium">
-            Como ingresar correctamente una función objetivo
+            {titleHelps}
           </Typography>
-          <Typography
-            variant="small"
-            color="white"
-            className="font-normal opacity-80"
-          >
-            <b>variables:</b> se debe colocar la variable de la forma x1, x2, x3, etc. o cualquier otra letra
-          </Typography>
-          <Typography
-            variant="small"
-            color="white"
-            className="font-normal opacity-80"
-          >
-            <b>ecuación:</b> la ecuación debe estar siempre simplificada por ejemplo: 2x1 + 2x2 + 1x3 + 2x4 al pasar algo tipo 2x2 + 3x2 daria un mal funcionamiento
-          </Typography>
-          <Typography
-            variant="small"
-            color="white"
-            className="font-normal opacity-80"
-          >
-            <b>coeficiente:</b> si el coeficiente es 1 se debe colocar de la forma 1x1, si es negativo se debe colocar de la forma -1x1
-          </Typography>
+          {
+            data.map((h)=>(
+              <Typography
+                key={h.id}
+                variant="small"
+                color="white"
+                className="font-normal opacity-80"
+              >
+                <b>{h.id}: </b>{h.content}
+              </Typography>
+            ))
+          }
         </div>
       }
     >

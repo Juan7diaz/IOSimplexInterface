@@ -3,6 +3,7 @@ import { InputWithDropdown } from "../components/InputWithDropdown"
 import { Button } from "@material-tailwind/react"
 import { parseObjectiveFunction } from "../helpers/helpers"
 import HeaderObjectiveFunctio from "../components/HeaderObjectiveFunctio"
+import { helps_funcObj } from "../data/helps"
 
 
 function LandingPage() {
@@ -22,8 +23,18 @@ function LandingPage() {
 
     return (
         <div className="mx-auto relative flex flex-col w-full max-w-[30rem] pt-10 px-4">
-                <HeaderObjectiveFunctio />
-                <InputWithDropdown types={types} typeSelected={typeSelected} setTypeSelected={setTypeSelected} objectiveFunction={objectiveFunction} setObjectiveFunction={setObjectiveFunction}/>
+                <HeaderObjectiveFunctio
+                    title='Introduzca la función objetivo'
+                    data={helps_funcObj}
+                    titleHelps='Como ingresar datos correctamente'
+                />
+                <InputWithDropdown
+                    types={types}
+                    typeSelected={typeSelected}
+                    setTypeSelected={setTypeSelected}
+                    objectiveFunction={objectiveFunction}
+                    setObjectiveFunction={setObjectiveFunction}
+                />
                 <Button className="mt-5" onClick={onSubmit}>Resolver</Button>
         </div>
     )
