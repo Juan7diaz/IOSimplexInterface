@@ -5,7 +5,7 @@ import { parseObjectiveFunction, parseRestrictions} from "./helpers/helpers"
 import HeaderObjectiveFunction from "./components/HeaderObjectiveFunction"
 import RestrictionInput from "./components/RestrictionInput"
 import { helps_funcObj, helps_restrictions } from "./data/helps"
-import ShowAllRetrictions from "./components/showAllRetrictions"
+import ShowAllRetrictions from "./components/ShowAllRetrictions"
 
 
 function LandingPage() {
