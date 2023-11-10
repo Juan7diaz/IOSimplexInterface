@@ -11,10 +11,13 @@ function LandingPage() {
     const [ typeSelected, setTypeSelected ] = React.useState(types[0])
     const [ objectiveFunction, setObjectiveFunction ] = React.useState("")
 
+    // para las restricciones
+    // ...
+
+    // para hacer la peticion al servidor
     const onSubmit = () => {
         console.log(parseObjectiveFunction(objectiveFunction, typeSelected))
     }
-
 
     return (
         <div className="mx-auto relative flex flex-col w-full max-w-[24rem] pt-10 px-4">
