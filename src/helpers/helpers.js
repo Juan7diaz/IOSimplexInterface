@@ -39,7 +39,7 @@ export function parseRestrictions(restrictions = []) {
 
 const coefficientsRightPart = (equationParsed, leftPart) => {
   const coefficients = getCoefficients(equationParsed, getOperators(leftPart))
-  const variables = equationParsed.filter(node => node.isSymbolNode).map(node => node.name);
+  let variables = equationParsed.filter(node => node.isSymbolNode).map(node => node.name);
   const subIvariables = variables.map(variable => variable.replaceAll('x', ''))
   const cantdVariables = Math.max(...subIvariables)
 
