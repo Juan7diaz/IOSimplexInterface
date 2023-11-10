@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Input,
   Menu,
@@ -8,11 +7,8 @@ import {
   Button,
 } from "@material-tailwind/react";
 
-export function InputWithDropdown() {
-
-  const [ types  ] = React.useState(['maxZ', "minZ"])
-  const [ typeSelected, setTypeSelected ] = React.useState(types[0])
-  console.log(typeSelected)
+// eslint-disable-next-line react/prop-types
+export function InputWithDropdown({types = [], setTypeSelected, typeSelected}) {
 
   return (
     <div className="relative flex w-full max-w-[24rem]">
@@ -27,16 +23,15 @@ export function InputWithDropdown() {
             {typeSelected}
           </Button>
         </MenuHandler>
-        <MenuList className="max-h-[20rem] max-w-[18rem]">
+        <MenuList className="max-h-[20rem] max-w-[2rem]">
           {types.map((type) => {
             return (
               <MenuItem
                 key={type}
                 value={type}
-                className="flex items-center gap-2"
                 onClick={() => setTypeSelected(type)}
               >
-               <span className="ml-auto">{type}</span>
+               <span>{type}</span>
               </MenuItem>
             );
           })}
@@ -44,7 +39,7 @@ export function InputWithDropdown() {
       </Menu>
       <Input
         type="tel"
-        placeholder="Mobile Number"
+        placeholder="2X1 + 2X2 + 1X3 + 2X4"
         className="rounded-l-none !border-t-blue-gray-200 focus:!border-t-gray-900"
         labelProps={{
           className: "before:content-none after:content-none",
