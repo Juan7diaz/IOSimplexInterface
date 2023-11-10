@@ -1,4 +1,5 @@
 import React from "react"
+import axios from "axios"
 import { InputWithDropdown } from "./components/InputWithDropdown"
 import { Button } from "@material-tailwind/react"
 import { parseObjectiveFunction, parseRestrictions} from "./helpers/helpers"
@@ -19,12 +20,14 @@ function LandingPage() {
 	const [ restrictions, setRestrictions ] = React.useState([])
 
 	// para hacer la peticion al servidor
-	const onSubmit = () => {
+	const onSubmit = async() => {
 		const payload = {
 			...parseObjectiveFunction(objectiveFunction, typeSelected),
-			restrictions: parseRestrictions(restrictions)
+			restrictions: parseRestrictions(restrictions).replaceAll(/\\/g, "")
 		}
 		console.log(payload)
+		const res = await axios.post("https://simplex-method-api.onrender.com/standard-model", payload)
+		console.log(res)
   }
 
 	return (
