@@ -3,9 +3,7 @@ function LandingPage() {
     return (
         <div>
             <Header />
-            <input type="text" className="block w-full text-sm text-slate-500">
-                Algo
-            </input>
+            <input type="text" className="block w-full text-sm text-slate-500" value="algo"></input>
         </div>
     )
 }
