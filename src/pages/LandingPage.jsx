@@ -1,7 +1,7 @@
 import React from "react"
 import { InputWithDropdown } from "../components/InputWithDropdown"
 import { Button } from "@material-tailwind/react"
-import { parseObjectiveFunction, parseRestriction } from "../helpers/helpers"
+import { parseObjectiveFunction, parseRestrictions} from "../helpers/helpers"
 import HeaderObjectiveFunction from "../components/HeaderObjectiveFunction"
 import RestrictionInput from "../components/RestrictionInput"
 
@@ -21,9 +21,9 @@ function LandingPage() {
     const onSubmit = () => {
         console.log(parseObjectiveFunction(objectiveFunction, typeSelected))
     }
-
+    // petición de la restricción
     const onSubmitRestrictions = () => {
-        console.log(parseRestriction(restrictionAdded))
+        console.log(parseRestrictions(restrictionAdded))
     }
 
     return (

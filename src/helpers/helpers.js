@@ -1,50 +1,66 @@
 import * as math from 'mathjs'
 
-
 export function parseObjectiveFunction(str = "", type){
   const equation = str.trim()
+  const equationParsed = math.parse(equation)
 
-  const parsed = math.parse(equation)
+  const typeFormated = getFormatedType(type);
+  const n_variables = getcantVariables(equationParsed);
+  const operators = getOperators(equation)
+  const coefficients = getCoefficients(equationParsed, operators)
+  const obj_func = obj_function_parse(typeFormated, coefficients)
 
-  const variables = parsed.filter(node => node.isSymbolNode).map(node => node.name);
-
-  let coefficients = parsed.filter(node => node.isConstantNode).map(node => node.value);
-
-  const operators = equation.split(/[\d\w]+/).filter(op => op !== '').map(op => op.trim());
-
-  equation[0] !== '-' && operators.unshift('+')
-
-  coefficients = coefficients.map((coefficient, i) => operators[i] === '-' ? -coefficient : coefficient)
-
-  return {
-    type,
-    equation,
-    variables,
-    coefficients,
-    operators
-  };
-
+  return { n_variables, obj_func };
 }
 
-export function parseRestriction(str = ""){
+const obj_function_parse = (type, coefficients) => {
+  const arr = [type, coefficients]
+  const arrJson = JSON.stringify(arr)
+  return arrJson.replaceAll('[', '(').replaceAll(']', ')')
+}
+
+const restriction_parse = (separator) => {
+  const arr = [separator]
+  const arrJson = JSON.stringify(arr)
+  return arrJson.replaceAll('[', '(').replaceAll(']', ')')
+}
+
+export function parseRestrictions(str = "") {
   const equation = str.trim()
 
-  const parsed = math.parse(equation)
+  const {leftSide, separator}=separateEquation(equation)
+  const coefficients=getCoefficients(math.parse(leftSide), getOperators(leftSide))
+  return{
+    coefficients
+  }
+}
 
-  const variables = parsed.filter(node => node.isSymbolNode).map(node => node.name);
+const getFormatedType = (type) => type === 'maxZ' ? 'max' : 'min';
 
-  let coefficients = parsed.filter(node => node.isConstantNode).map(node => node.value);
+const getcantVariables = (equationParsed) => {
+  const arr_variables = equationParsed.filter(node => node.isSymbolNode).map(node => node.name);
+  const cant_variables = arr_variables.length;
+  return cant_variables;
+}
 
-  const operators = equation.split(/[\d\w]+/).filter(op => op !== '').map(op => op.trim());
-
-  equation[0] !== '-' && operators.unshift('+')
-
+const getCoefficients = (equationParsed, operators) => {
+  let coefficients = equationParsed.filter(node => node.isConstantNode).map(node => node.value);
   coefficients = coefficients.map((coefficient, i) => operators[i] === '-' ? -coefficient : coefficient)
+  return coefficients;
+}
 
-  return {
-    equation,
-    variables,
-    coefficients,
-    operators
-  };
+const getOperators = (equation) => {
+  const operators = equation.split(/[\d\w]+/).filter(op => op !== '').map(op => op.trim());
+  equation[0] !== '-' && operators.unshift('+')
+  return operators;
+}
+
+const obtainSeparator = (str) => {
+  const matches = [">=","<=", ">", "<", "="].map(sig => str.includes(sig) && sig).filter(e => e!=false)[0]
+  return matches || null
+}
+
+const separateEquation = (str) => {
+  const separator = obtainSeparator(str)
+  return separator ? {leftSide: str.split(separator)[0], separator: separator} : null
 }

@@ -29,14 +29,14 @@ export function TooltipWithHelperIcon() {
             color="white"
             className="font-normal opacity-80"
           >
-            <b>ecuación:</b> debe estar siemple simplificada por ejemplo: 2x1 + 2x2 + 1x3 + 2x4
+            <b>ecuación:</b> la ecuación debe estar siempre simplificada por ejemplo: 2x1 + 2x2 + 1x3 + 2x4 al pasar algo tipo 2x2 + 3x2 daria un mal funcionamiento
           </Typography>
           <Typography
             variant="small"
             color="white"
             className="font-normal opacity-80"
           >
-            <b>coeficiente:</b> si el coeficiente es 1 se debe colocar de la forma 1X1, si es negativo se debe colocar de la forma -1X1
+            <b>coeficiente:</b> si el coeficiente es 1 se debe colocar de la forma 1x1, si es negativo se debe colocar de la forma -1x1
           </Typography>
         </div>
       }
