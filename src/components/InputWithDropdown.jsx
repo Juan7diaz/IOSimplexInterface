@@ -8,7 +8,7 @@ import {
 } from "@material-tailwind/react";
 
 // eslint-disable-next-line react/prop-types
-export function InputWithDropdown({types = [], setTypeSelected, typeSelected}) {
+export function InputWithDropdown({types = [], setTypeSelected, typeSelected, ObjectiveFunction, setObjectiveFunction}) {
 
   return (
     <div className="relative flex w-full max-w-[24rem]">
@@ -40,6 +40,8 @@ export function InputWithDropdown({types = [], setTypeSelected, typeSelected}) {
       <Input
         type="tel"
         placeholder="2X1 + 2X2 + 1X3 + 2X4"
+        value={ObjectiveFunction}
+        onChange={(e) => setObjectiveFunction(e.target.value)}
         className="rounded-l-none !border-t-blue-gray-200 focus:!border-t-gray-900"
         labelProps={{
           className: "before:content-none after:content-none",
