@@ -10,7 +10,7 @@ export function parseObjectiveFunction(str = "", type){
 
   let coefficients = parsed.filter(node => node.isConstantNode).map(node => node.value);
 
-  const operators = equation.split(/[\d\w]+/).filter(op => op !== '').map(op => op.trim() );
+  const operators = equation.split(/[\d\w]+/).filter(op => op !== '').map(op => op.trim());
 
   equation[0] !== '-' && operators.unshift('+')
 

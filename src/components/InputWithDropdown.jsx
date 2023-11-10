@@ -11,7 +11,7 @@ import {
 export function InputWithDropdown({types = [], setTypeSelected, typeSelected, ObjectiveFunction, setObjectiveFunction}) {
 
   return (
-    <div className="relative flex w-full max-w-[24rem]">
+    <div className="relative flex w-full">
       <Menu placement="bottom-start">
         <MenuHandler>
           <Button
@@ -45,9 +45,6 @@ export function InputWithDropdown({types = [], setTypeSelected, typeSelected, Ob
         className="rounded-l-none !border-t-blue-gray-200 focus:!border-t-gray-900"
         labelProps={{
           className: "before:content-none after:content-none",
-        }}
-        containerProps={{
-          className: "min-w-0",
         }}
       />
     </div>
