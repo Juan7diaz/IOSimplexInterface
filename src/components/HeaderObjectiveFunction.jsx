@@ -3,7 +3,7 @@ import { Tooltip, Typography } from "@material-tailwind/react";
 // eslint-disable-next-line react/prop-types
 const HeaderObjectiveFunction = ({title, titleHelps, data}) => {
   return (
-    <div className='flex flex-row text-center mb-5'>
+    <div className='flex flex-row text-center my-5'>
       <h1 className="text-orange-950 text-xl font-medium">{title}</h1>
       <TooltipWithHelperIcon titleHelps={titleHelps} data={data}/>
     </div>

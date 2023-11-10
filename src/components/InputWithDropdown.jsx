@@ -39,7 +39,7 @@ export function InputWithDropdown({types = [], setTypeSelected, typeSelected, Ob
       </Menu>
       <Input
         type="tel"
-        placeholder="2X1 + 2X2 + 1X3 + 2X4"
+        placeholder="2x1 + 2x2 + 1x3 + 2x4"
         value={ObjectiveFunction}
         onChange={(e) => setObjectiveFunction(e.target.value)}
         className="rounded-l-none !border-t-blue-gray-200 focus:!border-t-gray-900"

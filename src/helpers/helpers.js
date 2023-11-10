@@ -8,30 +8,54 @@ export function parseObjectiveFunction(str = "", type){
   const n_variables = getcantVariables(equationParsed);
   const operators = getOperators(equation)
   const coefficients = getCoefficients(equationParsed, operators)
-  const obj_func = obj_function_parse(typeFormated, coefficients)
+  const obj_func = JSON.stringify([typeFormated, coefficients]).replaceAll('[', '(').replaceAll(']', ')')
 
   return { n_variables, obj_func };
 }
 
-const obj_function_parse = (type, coefficients) => {
-  const arr = [type, coefficients]
-  const arrJson = JSON.stringify(arr)
-  return arrJson.replaceAll('[', '(').replaceAll(']', ')')
+export function parseRestrictions(restrictions = []) {
+  const arrRestrictions = restrictions.map(restriction => {
+    const res = separateEquation(restriction.trim())
+    const rightPart = parseInt(res.expression[1].trim())
+    const separator = res.separator
+    const leftPart = res.expression[0].trim()
+    const equationParsed = math.parse(leftPart)
+    const coeffRightPart = coefficientsRightPart(equationParsed, leftPart)
+    const allDataArr = [ coeffRightPart, separator, rightPart ]
+    const arrToString = JSON.stringify(allDataArr).replaceAll('[', '(').replaceAll(']', ')')
+    return arrToString
+  })
+
+  let str = ""
+  const cantRestriction = arrRestrictions.length
+  arrRestrictions.forEach((restrictions, i) => {
+    if(i === cantRestriction - 1) return str += restrictions
+    str += restrictions + ","
+  })
+
+  return "[" + str + "]"
+
 }
 
-const restriction_parse = (separator) => {
-  const arr = [separator]
-  const arrJson = JSON.stringify(arr)
-  return arrJson.replaceAll('[', '(').replaceAll(']', ')')
+const coefficientsRightPart = (equationParsed, leftPart) => {
+  const coefficients = getCoefficients(equationParsed, getOperators(leftPart))
+  const variables = equationParsed.filter(node => node.isSymbolNode).map(node => node.name);
+  const subIvariables = variables.map(variable => variable.replaceAll('x', ''))
+  const cantdVariables = Math.max(...subIvariables)
+
+  let coefficientsFormated = []
+  for(let i = 1; i <= cantdVariables; i++){
+    if(variables.includes("x"+i)){
+      const index = variables.indexOf("x"+i)
+      coefficientsFormated.push(coefficients[index])
+    }else{
+      coefficientsFormated.push(0)
+    }
+  }
+
+  return coefficientsFormated
 }
 
-export function parseRestrictions(str = "") {
-  const equation = str.trim()
-
-  const {expression, separator}=separateEquation(equation)
-  return expression[0]
-  
-}
 
 const getFormatedType = (type) => type === 'maxZ' ? 'max' : 'min';
 
