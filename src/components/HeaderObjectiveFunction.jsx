@@ -1,6 +1,6 @@
 import { Tooltip, Typography } from "@material-tailwind/react";
 
-const HeaderObjectiveFunctio = () => {
+const HeaderObjectiveFunction = () => {
   return (
     <div className='flex flex-row text-center mb-5'>
       <h1 className="text-orange-950 text-xl font-medium">Inserte la función objetivo</h1>
@@ -60,4 +60,4 @@ export function TooltipWithHelperIcon() {
 }
 
 
-export default HeaderObjectiveFunctio
+export default HeaderObjectiveFunction
