@@ -8,9 +8,9 @@ export function parseObjectiveFunction(str = "", type){
   const n_variables = getcantVariables(equationParsed);
   const operators = getOperators(equation)
   const coefficients = getCoefficients(equationParsed, operators)
-  const obj_func = JSON.stringify([typeFormated, coefficients]).replaceAll('[', '(').replaceAll(']', ')')
+  const obj_funct = JSON.stringify([typeFormated, coefficients]).replaceAll('[', '(').replaceAll(']', ')')
 
-  return { n_variables, obj_func };
+  return { n_variables, obj_funct };
 }
 
 export function parseRestrictions(restrictions = []) {
@@ -30,10 +30,10 @@ export function parseRestrictions(restrictions = []) {
   const cantRestriction = arrRestrictions.length
   arrRestrictions.forEach((restrictions, i) => {
     if(i === cantRestriction - 1) return str += restrictions
-    str += restrictions + ","
+    str += restrictions + ','
   })
 
-  return "[" + str + "]"
+  return '[' + str + ']'
 
 }
 
@@ -78,7 +78,7 @@ const getOperators = (equation) => {
 }
 
 const obtainSeparator = (str) => {
-  const matches = [">=","<=", ">", "<", "="].map(sig => str.includes(sig) && sig).filter(e => e!=false)[0]
+  const matches = [">=","<=", "="].map(sig => str.includes(sig) && sig).filter(e => e!=false)[0]
   return matches || null
 }
 
