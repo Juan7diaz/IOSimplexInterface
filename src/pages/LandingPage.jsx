@@ -42,7 +42,7 @@ function LandingPage() {
 				setObjectiveFunction={setObjectiveFunction}
 			/>
 			<HeaderObjectiveFunction
-				title='introduzca la restricción'
+				title='Introduzca la restricción'
 				data={helps_restrictions}
 				titleHelps='Como enseñarte a no ser menso'
 			/>
