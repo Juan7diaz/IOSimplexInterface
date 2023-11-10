@@ -1,13 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import Header from './components/Header.jsx'
-import Keyboard from './inputPad/Keyboard.jsx'
-import Display from './display/Display.jsx'
+import LandingPage from './pages/landingPage'
+import Display from './display/Display'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Header />
+    <LandingPage />
     <Display />
-  </React.StrictMode>,
+  </React.StrictMode>
 )
