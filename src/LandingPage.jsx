@@ -1,11 +1,11 @@
 import React from "react"
-import { InputWithDropdown } from "../components/InputWithDropdown"
+import { InputWithDropdown } from "./components/InputWithDropdown"
 import { Button } from "@material-tailwind/react"
-import { parseObjectiveFunction, parseRestrictions} from "../helpers/helpers"
-import HeaderObjectiveFunction from "../components/HeaderObjectiveFunction"
-import RestrictionInput from "../components/RestrictionInput"
-import { helps_funcObj, helps_restrictions } from "../data/helps"
-import ShowAllRetrictions from "../components/showAllRetrictions"
+import { parseObjectiveFunction, parseRestrictions} from "./helpers/helpers"
+import HeaderObjectiveFunction from "./components/HeaderObjectiveFunction"
+import RestrictionInput from "./components/RestrictionInput"
+import { helps_funcObj, helps_restrictions } from "./data/helps"
+import ShowAllRetrictions from "./components/showAllRetrictions"
 
 
 function LandingPage() {
