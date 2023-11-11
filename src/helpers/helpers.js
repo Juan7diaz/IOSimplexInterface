@@ -9,7 +9,10 @@ export function parseObjectiveFunction(str = "", type){
   const operators = getOperators(equation)
   const coefficients = getCoefficients(equationParsed, operators)
 
-  return [typeFormated,coefficients]
+  return {
+    action: typeFormated,
+    coefficients
+  }
 }
 
 export function parseRestrictions(restrictions = []) {
