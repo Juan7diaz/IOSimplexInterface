@@ -1,39 +1,76 @@
-import { Button, Input } from "@material-tailwind/react";
-import React from "react";
+import React, { useEffect } from "react";
+import { Button } from "@material-tailwind/react";
 
 
 // eslint-disable-next-line react/prop-types
-function RestrictionInput({ setRestrictions }) {
+function RestrictionInput({ nVariables, setRestrictions }) {
+
+	const refRestriction = React.useRef(null)
+	const refValue = React.useRef(null)
 
 
-    const [currentRestrictions, setCurrentRestrictions] = React.useState("")
+	const initialCoefficients = [...Array(nVariables)].map(() => 1)
+	const [coefficient, setCoefficient] = React.useState(initialCoefficients)
 
-    const onAddRestriction = () => {
-        setRestrictions((prev) => [currentRestrictions, ...prev])
-        setCurrentRestrictions("")
-    }
+	useEffect(() => {
+		(nVariables > 0) ? setCoefficient([...Array(nVariables)].map(() => 1)) : setCoefficient([])
+	}, [nVariables])
 
-    return (
-        <div className="relative flex flex-col w-full" >
-            <Input
-                type="tel"
-                placeholder="2x1 >= 2x2"
-                value={currentRestrictions}
-                onChange={(e) => setCurrentRestrictions(e.target.value)}
-                className="rounded-none !border-t-blue-gray-200 focus:!border-t-gray-900"
-                labelProps={{
-                    className: "before:content-none after:content-none",
-                }}
+
+  const onAddRestriction = () => {
+		const payload = {
+			coefficient: coefficient.map((value) => parseInt(value)),
+			restriction: refRestriction.current.value,
+			value: parseInt(refValue.current.value)
+		}
+		console.log(payload)
+		setRestrictions(prevRetrictions => [payload, ...prevRetrictions])
+		setCoefficient([...Array(nVariables)].map(() => 1))
+		refValue.current.value = ""
+	};
+
+	const onInputChange = ({target}) => {
+		const { name, value } = target;
+		const newCoefficients = [...coefficient]
+		newCoefficients[name] = value
+		setCoefficient(newCoefficients)
+	}
+
+  return (
+    <>
+      <Button
+        className="bg-blue-gray-400 rounded-full mb-2 px-3 py-2"
+        onClick={onAddRestriction}
+      >
+        +
+      </Button>
+      <div className="relative flex h-10">
+        {[...Array(nVariables)].map((_, i) => (
+          <div key={i} className="flex flex-row">
+            <input
+              placeholder="1"
+              className="border px-1 py-2.5 w-20"
+              required
+							name={i}
+							onChange={onInputChange}
+              value={coefficient[i]}
             />
-            <Button
-                size="sm"
-                color={currentRestrictions ? "gray" : "blue-gray"}
-                disabled={!currentRestrictions}
-                className="!absolute right-1 top-1"
-                onClick={onAddRestriction}
-            >+</Button>
+            <div className="p-3 text-xs font-bold text-white bg-blue-gray-700 mr-5">
+              x{i + 1}
+            </div>
+          </div>
+        ))}
+        <div className="p-2 border mr-5">
+          <select ref={refRestriction}>
+            <option>{">="}</option>
+            <option>{"<="}</option>
+            <option>{"="}</option>
+          </select>
         </div>
-    )
+        <input placeholder="2" className="border px-1 py-2.5 w-20" required ref={refValue} />
+      </div>
+    </>
+  );
 }
 
-export default RestrictionInput
+export default RestrictionInput;

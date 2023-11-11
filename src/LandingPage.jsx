@@ -1,13 +1,13 @@
-import React from "react"
-import axios from "axios"
+import React, { useEffect } from "react"
+import * as math from 'mathjs'
 import { InputWithDropdown } from "./components/InputWithDropdown"
 import { Button } from "@material-tailwind/react"
-import { parseObjectiveFunction, parseRestrictions} from "./helpers/helpers"
+import { getcantVariables, parseObjectiveFunction, parseRestrictions} from "./helpers/helpers"
 import HeaderObjectiveFunction from "./components/HeaderObjectiveFunction"
 import RestrictionInput from "./components/RestrictionInput"
 import { helps_funcObj, helps_restrictions } from "./data/helps"
 import ShowAllRetrictions from "./components/ShowAllRetrictions"
-
+import axios from "axios"
 
 function LandingPage() {
 
@@ -18,39 +18,56 @@ function LandingPage() {
 
 	// para las restricciones
 	const [ restrictions, setRestrictions ] = React.useState([])
+	const [nVariables, setNVariables] = React.useState(2)
+
+	// para saber cuantas variables tiene la funcion objetivo
+	useEffect(() => {
+		try {
+			setNVariables(getcantVariables(math.parse(objectiveFunction.trim())))
+		}catch(e) {
+			setNVariables(prev => prev)
+		}
+	},[objectiveFunction])
+
 
 	// para hacer la peticion al servidor
 	const onSubmit = async() => {
-		const payload = {
-			...parseObjectiveFunction(objectiveFunction, typeSelected),
-			restrictions: parseRestrictions(restrictions).replaceAll(/\\/g, "")
+		const data = {
+			n_variables: nVariables,
+			obj_funct: parseObjectiveFunction(objectiveFunction),
+			restrictions: parseRestrictions(restrictions)
 		}
-		console.log(payload)
-		const res = await axios.post("https://simplex-method-api.onrender.com/standard-model", payload)
+		const res = await axios.post('https://simplex-method-api.onrender.com', data)
 		console.log(res)
-  }
+	}
 
 	return (
-		<div className="mx-auto relative flex flex-col w-full max-w-[30rem] pt-10 px-4">
-			<HeaderObjectiveFunction
-				title='Introduzca la función objetivo'
-				data={helps_funcObj}
-				titleHelps='Como ingresar datos correctamente'
-			/>
-			<InputWithDropdown
-				types={types}
-				typeSelected={typeSelected}
-				setTypeSelected={setTypeSelected}
-				objectiveFunction={objectiveFunction}
-				setObjectiveFunction={setObjectiveFunction}
-			/>
-			<HeaderObjectiveFunction
-				title='introduzca la restricción'
-				data={helps_restrictions}
-				titleHelps='Como enseñarte a no ser menso'
-			/>
-			<RestrictionInput setRestrictions={setRestrictions} />
-			{ restrictions.length > 0 && <ShowAllRetrictions restrictions={restrictions} /> }
+		<div className="pt-10 px-10 content-center">
+			<div className="relative flex flex-col">
+				<HeaderObjectiveFunction
+					title='Introduzca la función objetivo'
+					data={helps_funcObj}
+					titleHelps='Como ingresar datos correctamente'
+				/>
+				<InputWithDropdown
+					types={types}
+					typeSelected={typeSelected}
+					setTypeSelected={setTypeSelected}
+					objectiveFunction={objectiveFunction}
+					setObjectiveFunction={setObjectiveFunction}
+				/>
+			</div>
+			{ nVariables > 0 &&
+				<>
+				<HeaderObjectiveFunction
+					title='introduzca la restricción'
+					data={helps_restrictions}
+					titleHelps='Como enseñarte a no ser menso'
+					/>
+				<RestrictionInput setRestrictions={setRestrictions} nVariables={nVariables}/>
+				{ restrictions.length > 0  && <ShowAllRetrictions restrictions={restrictions} /> }
+				</>
+			}
 			<Button className="mt-5 mb-7" onClick={onSubmit}>Resolver</Button>
 		</div>
 	)
