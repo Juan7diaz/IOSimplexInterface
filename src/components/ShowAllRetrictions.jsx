@@ -26,12 +26,10 @@ function TrashIcon() {
 // eslint-disable-next-line react/prop-types
 function ShowAllRetrictions({ restrictions = [], setRestrictions }) {
 
-  function deleteRestrictions(restrictions, toDelete) {
-    const index = restrictions.indexOf(toDelete);
-    if (index > -1) {
-      setRestrictions(restrictions.splice(index, 1))
-      console.log(restrictions)
-    }
+  function deleteRestrictions(index) {
+    const newRestrictions = [...restrictions]
+    newRestrictions.splice(index, 1)
+    setRestrictions(newRestrictions)
   }
 
   return (
@@ -43,7 +41,7 @@ function ShowAllRetrictions({ restrictions = [], setRestrictions }) {
               <ListItem ripple={false} className="py-1 pr-1 pl-4" key={i}>
                 {showRestrictionsInString(restriction)}
                 <ListItemSuffix>
-                  <IconButton variant="text" color="red" className="rounded-full h-20 w-20" onClick={() => deleteRestrictions(restrictions, restriction)}>
+                  <IconButton variant="text" color="red" className="rounded-full h-20 w-20" onClick={() => deleteRestrictions(i)}>
                     <TrashIcon />
                   </IconButton>
                 </ListItemSuffix>

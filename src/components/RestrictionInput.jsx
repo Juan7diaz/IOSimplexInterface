@@ -23,7 +23,6 @@ function RestrictionInput({ nVariables, setRestrictions }) {
       restriction: refRestriction.current.value,
       value: parseInt(refValue.current.value)
     }
-    console.log(payload)
     setRestrictions(prevRestrictions => [payload, ...prevRestrictions])
     setCoefficient([...Array(nVariables)].map(() => 1))
     refValue.current.value = ""
