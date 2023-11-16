@@ -35,13 +35,13 @@ function TrashIcon() {
 // eslint-disable-next-line react/prop-types
 function ShowAllRetrictions({ restrictions = [] }) {
   return (
-    <Card className="w-full">
+    <Card className="w-full pt-3">
       <List>
         {
           restrictions.map((restriction, i) => {
             return (
               <ListItem ripple={false} className="py-1 pr-1 pl-4" key={i}>
-                {restriction}
+                {showRestrictionsInString(restriction)}
                 <ListItemSuffix>
                   <IconButton variant="text" color="blue-gray" onClick={()=>deleteRestrictions(restrictions, restriction)}>
                     <TrashIcon/>
@@ -51,10 +51,25 @@ function ShowAllRetrictions({ restrictions = [] }) {
             )
           })
         }
-
       </List>
     </Card>
   );
+}
+
+const showRestrictionsInString = (restriction) => {
+  const { coefficient, restriction: restrictionSymbol, value } = restriction
+  const restrictionString = coefficient.reduce((acc, value, idx) => {
+    if (value === 0) return acc
+    const sign = (value > 0) ? "+" : "-"
+    const absValue = Math.abs(value)
+    const variable = (idx === 0) ? `x${idx + 1}` : `x${idx + 1}`
+    return `${acc} ${sign} ${absValue}${variable}`
+  }, "")
+  let equation = `${restrictionString} ${restrictionSymbol} ${value}`.trim()
+  equation = (equation[0] === "+") ? equation.slice(1) : equation
+
+  return equation
+
 }
 
 export default ShowAllRetrictions;
