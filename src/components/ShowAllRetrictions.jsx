@@ -7,12 +7,12 @@ import {
 } from "@material-tailwind/react";
 
 function deleteRestrictions(restrictions, toDelete){
-  console.log(restrictions)
-  const index = restrictions.indexOf(toDelete);
+  console.log(toDelete)
+  /*const index = restrictions.indexOf(toDelete);
   if (index > -1) { 
   restrictions.splice(index, 1);
   console.log(restrictions)
-  }
+  }*/
 }
 
 function TrashIcon() {
@@ -43,7 +43,7 @@ function ShowAllRetrictions({ restrictions = [] }) {
               <ListItem ripple={false} className="py-1 pr-1 pl-4" key={i}>
                 {showRestrictionsInString(restriction)}
                 <ListItemSuffix>
-                  <IconButton variant="text" color="blue-gray" onClick={()=>deleteRestrictions(restrictions, restriction)}>
+                  <IconButton variant="text" color="red" className="rounded-full" onClick={()=>deleteRestrictions(restrictions, restriction)}>
                     <TrashIcon/>
                   </IconButton>
                 </ListItemSuffix>

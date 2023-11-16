@@ -41,6 +41,7 @@ function LandingPage() {
 		}
 		const res = await axios.post('https://simplex-method-api.onrender.com', data)
 		console.log(res)
+		setData(res)
 	}
 
 	return (
