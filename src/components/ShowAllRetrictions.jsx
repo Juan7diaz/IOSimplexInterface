@@ -6,15 +6,6 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 
-function deleteRestrictions(restrictions, toDelete){
-  console.log(toDelete)
-  /*const index = restrictions.indexOf(toDelete);
-  if (index > -1) { 
-  restrictions.splice(index, 1);
-  console.log(restrictions)
-  }*/
-}
-
 function TrashIcon() {
   return (
     <svg
@@ -33,7 +24,16 @@ function TrashIcon() {
 }
 
 // eslint-disable-next-line react/prop-types
-function ShowAllRetrictions({ restrictions = [] }) {
+function ShowAllRetrictions({ restrictions = [], setRestrictions }) {
+
+  function deleteRestrictions(restrictions, toDelete) {
+    const index = restrictions.indexOf(toDelete);
+    if (index > -1) {
+      setRestrictions(restrictions.splice(index, 1))
+      console.log(restrictions)
+    }
+  }
+
   return (
     <Card className="w-full pt-3">
       <List>
@@ -43,8 +43,8 @@ function ShowAllRetrictions({ restrictions = [] }) {
               <ListItem ripple={false} className="py-1 pr-1 pl-4" key={i}>
                 {showRestrictionsInString(restriction)}
                 <ListItemSuffix>
-                  <IconButton variant="text" color="red" className="rounded-full" onClick={()=>deleteRestrictions(restrictions, restriction)}>
-                    <TrashIcon/>
+                  <IconButton variant="text" color="red" className="rounded-full h-20 w-20" onClick={() => deleteRestrictions(restrictions, restriction)}>
+                    <TrashIcon />
                   </IconButton>
                 </ListItemSuffix>
               </ListItem>

@@ -40,7 +40,6 @@ function LandingPage() {
 			restrictions: parseRestrictions(restrictions)
 		}
 		const res = await axios.post('https://simplex-method-api.onrender.com', data)
-		console.log(res)
 		setData(res)
 	}
 
@@ -68,7 +67,7 @@ function LandingPage() {
 					titleHelps='Como enseñarte a no ser menso'
 					/>
 				<RestrictionInput setRestrictions={setRestrictions} nVariables={nVariables}/>
-				{ restrictions.length > 0  && <ShowAllRetrictions restrictions={restrictions} /> }
+				{ restrictions.length > 0  && <ShowAllRetrictions restrictions={restrictions} setRestrictions={setRestrictions} /> }
 				</>
 			}
 			<Button className="mt-5 mb-7" onClick={onSubmit}>Resolver</Button>
