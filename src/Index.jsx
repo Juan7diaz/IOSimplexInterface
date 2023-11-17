@@ -1,25 +1,26 @@
 import React, { useEffect } from "react";
-import * as math from "mathjs";
 import { InputWithDropdown } from "./components/InputWithDropdown";
-import { Button, Typography } from "@material-tailwind/react";
-import {
-  getcantVariables,
-  parseObjectiveFunction,
-  parseRestrictions,
-} from "./helpers/helpers";
+import { Button } from "@material-tailwind/react";
 import HeaderObjectiveFunction from "./components/HeaderObjectiveFunction";
 import RestrictionInput from "./components/RestrictionInput";
 import { helps_funcObj, helps_restrictions } from "./data/helps";
 import ShowAllRetrictions from "./components/ShowAllRetrictions";
-import axios from "axios";
+import Stepper from "./components/Stepper";
+import { getMatrixs, getSolution } from "./helpers/fetch";
+import { getVariablesInObjectiveFunctions } from "./helpers/changeNvariable";
+import ShowMatrixInit from "./components/ShowMatrixInit";
+import ShowMatrixByIter from "./components/ShowMatrixByIter";
 
-function LandingPage() {
+function Index() {
   // para seleccionar el tipo de problema
   const [types] = React.useState(["maxZ", "minZ"]);
   const [typeSelected, setTypeSelected] = React.useState(types[0]);
+
+  // para guardar la funcion objetivo
   const [objectiveFunction, setObjectiveFunction] = React.useState("");
 
-  const [data, setData] = React.useState({});
+  // para guardar  los datos que trae la peticion
+  const [data, setData] = React.useState(null);
 
   // para las restricciones
   const [restrictions, setRestrictions] = React.useState([]);
@@ -27,30 +28,31 @@ function LandingPage() {
 
   // para saber cuantas variables tiene la funcion objetivo
   useEffect(() => {
-    try {
-      setNVariables(getcantVariables(math.parse(objectiveFunction.trim())));
-    } catch (e) {
-      setNVariables((prev) => prev);
-    }
+    const res = getVariablesInObjectiveFunctions(objectiveFunction);
+    setNVariables((prev) => (res !== -1 ? res : prev));
   }, [objectiveFunction]);
 
   // para hacer la peticion al servidor
   const onSubmit = async () => {
-		console.log(restrictions)
-    const data = {
-      n_variables: nVariables,
-      obj_funct: parseObjectiveFunction(objectiveFunction),
-      restrictions: parseRestrictions(restrictions),
-    };
-    const res = await axios.post(
-      "https://simplex-method-api.onrender.com",
-      data
+    const resMatrix = await getMatrixs(
+      nVariables,
+      objectiveFunction,
+      typeSelected,
+      restrictions
     );
-    setData(res.data);
+    const resSolution = await getSolution();
+    const dataApi = {
+      matrix: resMatrix,
+      solution: resSolution,
+    };
+    setData(dataApi);
   };
 
+  // para mostrar los datos
+  const [activeStep, setActiveStep] = React.useState(0);
+
   return (
-    <div className="pt-10 px-10 content-center">
+    <div className="pt-10 px-10 content-center pb-40">
       <div className="relative flex flex-col">
         <HeaderObjectiveFunction
           title="Introduzca la función objetivo"
@@ -87,16 +89,11 @@ function LandingPage() {
       <Button className="mt-5 mb-7" onClick={onSubmit}>
         Resolver
       </Button>
-      {data && (
-        <>
-          <Typography>MATRIX X: {JSON.stringify(data.X)}</Typography>
-          <Typography>MATRIX C: {JSON.stringify(data.C)}</Typography>
-          <Typography>MATRIX b: {JSON.stringify(data.b)}</Typography>
-          <Typography>MATRIX A: {JSON.stringify(data.A)}</Typography>
-        </>
-      )}
+      {data && <Stepper cant={data.solution.num_iters + 1} activeStep={activeStep} setActiveStep={setActiveStep}/>}
+      { (activeStep == 0 && !!data ) && <ShowMatrixInit data={data?.matrix} />}
+      { (activeStep !== 0 && !!data ) && <ShowMatrixByIter data={data?.solution.iterations} iter={activeStep - 1} />}
     </div>
   );
 }
 
-export default LandingPage;
+export default Index;
