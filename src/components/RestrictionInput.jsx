@@ -48,7 +48,7 @@ function RestrictionInput({ nVariables, setRestrictions }) {
               onChange={onInputChange}
               value={coefficient[i]}
             />
-            <div className="p-3 text-xs font-bold text-white bg-blue-gray-700 mr-5">
+            <div className="p-3 text-xs font-bold text-white bg-blue-gray-800 mr-5">
               x{i + 1}
             </div>
           </div>
@@ -63,7 +63,7 @@ function RestrictionInput({ nVariables, setRestrictions }) {
         <input placeholder="2" className="border px-1 py-2.5 w-20" required ref={refValue} />
       </div>
       <Button
-        className="bg-blue-gray-400 rounded-full mb-2 px-3 py-2 ml-5 mt-1"
+        className="bg-blue-gray-800 rounded-full mb-2 px-3 py-2 ml-5 mt-1"
         onClick={onAddRestriction}
       >
         +
