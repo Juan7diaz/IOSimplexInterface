@@ -3,8 +3,10 @@ import DisplayArray from "./DisplayMatrix";
 /* eslint-disable react/prop-types */
 const ShowMatrixByIter = ({ data, iter }) => {
 
-  const showData = (a = []) =>( a.length > 0 && a !== null && a[0] !== null)
-  const followIter = (a = []) => a[0] === true ? ["Seguir Iterando"] : ["No seguir Iterando"]
+  const showData = (a = []) => {
+    return (a == null) ? false :  (a.length > 0 && a !== null && a[0] !== null)
+  }
+  const followIter = (a = []) => a[0] === true ? ["SI"] : ["NO"]
 
   const invB_b = data.InvB_b[iter];
   const x_b = data.X_b[iter];
@@ -16,13 +18,13 @@ const ShowMatrixByIter = ({ data, iter }) => {
 
   return (
     <div>
-     {showData(invB_b) && <DisplayArray array={invB_b} name="Matriz invB_b"/>}
-      {showData(x_b) && <DisplayArray array={x_b} name="Matriz x_b"/>}
-      {showData(z) && <DisplayArray array={z} name="Matriz z"/>}
-      {showData(in_var) && <DisplayArray array={in_var} name="Matriz in_var"/>}
-      {showData(iterando) && <DisplayArray array={iterando} name="Matriz iterando"/>}
-      {showData(out_var) && <DisplayArray array={out_var} name="Matriz out_var"/>}
-      {showData(r) && <DisplayArray array={r} name="Matriz r"/>}
+      {showData(x_b) && <DisplayArray array={x_b} name="Variable solucion "/>}
+      {showData(z) && <DisplayArray array={z} name={`Solución del modelo en la iteración ${iter+1}`}/>}
+     {showData(invB_b) && <DisplayArray array={invB_b} name="Solución de la(s) variables"/>}
+      {showData(r) && <DisplayArray array={r} name="Vector costo reducido"/>}
+      {showData(iterando) && <DisplayArray array={iterando} name="Seguir iterando?"/>}
+      {showData(in_var) && <DisplayArray array={in_var} name="Variable que entra"/>}
+      {showData(out_var) && <DisplayArray array={out_var} name="Variable que sale"/>}
     </div>
   );
 };

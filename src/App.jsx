@@ -86,7 +86,7 @@ function Index() {
           )}
         </>
       )}
-      <Button className="mt-5 mb-7" onClick={onSubmit}>
+      <Button className='mt-5 mb-7' onClick={onSubmit} disabled={data}>
         Resolver
       </Button>
       {data && (
