@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { InputWithDropdown } from "./components/InputWithDropdown";
 import { Button } from "@material-tailwind/react";
 import HeaderObjectiveFunction from "./components/HeaderObjectiveFunction";
+import ConfettiExplosion from "react-confetti-explosion";
 import RestrictionInput from "./components/RestrictionInput";
 import { helps_funcObj, helps_restrictions } from "./data/helps";
 import ShowAllRetrictions from "./components/ShowAllRetrictions";
@@ -86,15 +87,40 @@ function Index() {
           )}
         </>
       )}
-      <Button className='mt-5 mb-7' onClick={onSubmit} disabled={data}>
+      <Button className="mt-5 mb-7" onClick={onSubmit} disabled={data}>
         Resolver
       </Button>
+      {data && (
+        <div className="flex items-center justify-center">
+        <ConfettiExplosion
+          force={0.6}
+          duration={4500}
+          particleCount={600}
+          height={3000}
+          width={3000}
+          />
+        </div>
+      )}
+      {data && (
+        <Button
+          className="mt-5 mb-7 ml-2"
+          onClick={() => window.location.reload()}
+        >
+          {" "}
+          Reiniciar{" "}
+        </Button>
+      )}
       {data && (
         <Stepper
           cant={data.solution.num_iters + 1}
           activeStep={activeStep}
           setActiveStep={setActiveStep}
         />
+      )}
+      {data?.solution?.special_case && (
+        <div className="text-center mb-5 text-xl font-bold">
+          Caso especial: {data.solution.special_case}
+        </div>
       )}
       {activeStep == 0 && !!data && <ShowMatrixInit data={data?.matrix} />}
       {activeStep !== 0 && !!data && (
