@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import Index from './Index'
+import Index from './App.jsx'
 import { ThemeProvider } from "@material-tailwind/react";
 import './index.css'
 

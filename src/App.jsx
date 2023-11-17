@@ -89,9 +89,20 @@ function Index() {
       <Button className="mt-5 mb-7" onClick={onSubmit}>
         Resolver
       </Button>
-      {data && <Stepper cant={data.solution.num_iters + 1} activeStep={activeStep} setActiveStep={setActiveStep}/>}
-      { (activeStep == 0 && !!data ) && <ShowMatrixInit data={data?.matrix} />}
-      { (activeStep !== 0 && !!data ) && <ShowMatrixByIter data={data?.solution.iterations} iter={activeStep - 1} />}
+      {data && (
+        <Stepper
+          cant={data.solution.num_iters + 1}
+          activeStep={activeStep}
+          setActiveStep={setActiveStep}
+        />
+      )}
+      {activeStep == 0 && !!data && <ShowMatrixInit data={data?.matrix} />}
+      {activeStep !== 0 && !!data && (
+        <ShowMatrixByIter
+          data={data?.solution.iterations}
+          iter={activeStep - 1}
+        />
+      )}
     </div>
   );
 }
