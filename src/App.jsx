@@ -46,6 +46,7 @@ function Index() {
       solution: resSolution,
     };
     setData(dataApi);
+    console.log(dataApi.solution)
   };
 
   // para mostrar los datos
